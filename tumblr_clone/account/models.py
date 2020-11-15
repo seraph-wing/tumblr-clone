@@ -1,8 +1,10 @@
 from django.db import models
-from django.contrib import auth
-from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
-class User(auth.models.User, auth.models.PermissionsMixin):
-    profile_picture = models.ImageField(upload_to="profiel_pictures",blank =True, null= True, verbose_name='image1')
+class User(AbstractUser):
+    description = models.TextField()
+    profile_picture = models.ImageField(upload_to='profile_pictures/',blank=True,null=True)
+    birth_date = models.DateField(null=True,blank=True)
+
     def __str__(self):
-        return "@{}".format(self.username)
+        return f"@{self.username}"

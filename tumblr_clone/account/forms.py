@@ -1,14 +1,17 @@
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.urls import reverse_lazy
+from .models import User
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
 
 
-class SignUpForm(UserCreationForm):
+class UserCreateForm(UserCreationForm):
 
-    class Meta:
-        fields = ("username", "email", "password1", "password2")
+    class Meta(UserCreationForm):
+        fields = ('username','email','password1','password2','description','profile_picture','birth_date')
         model = get_user_model()
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["username"].label = "Display name"
-        self.fields["email"].label = "Email address"
+        def __init__(self,*args,**kwargs):
+            super().init(*args,**kwargs)
+            self.fields['username'].label = 'Display Name'
+            self.fields['email'].label = 'E-Mail'
+            

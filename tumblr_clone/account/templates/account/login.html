@@ -2,11 +2,6 @@
 {% load crispy_forms_tags %}
 {% block content %}
   <div class="container">
-    <h2>Log in</h2>
-    <form method="post">
-      {% csrf_token %}
-      {% crispy form %}
-      <button type="submit" class="btn btn-primary">Login</button>
-    </form>
+    <h3>you're now logged in!</h3>
   </div>
 {% endblock content %}
