@@ -1,10 +1,19 @@
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
 
-class IndexView(TemplateView):
-    template_name = 'index.html'
-
 class LoginPage(TemplateView):
-    template_name ='login_test.html'
+    template_name = 'login.html'
 
-class LogoutPage(TemplateView):
-    template_name ='logout_test.html'
+class ThanksPage(TemplateView):
+    template_name = 'thanks.html'
+
+class HomePage(TemplateView):
+    template_name = "index.html"
+
+"""
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            return HttpResponseRedirect(reverse("login"))
+        return super().get(request, *args, **kwargs)
+"""
