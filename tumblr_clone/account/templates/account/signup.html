@@ -3,7 +3,7 @@
 {% block content %}
   <div class="container">
     <h3>Sign up here!</h3>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form|crispy }}
       <input type="submit" value="Sign Up!" class="btn btn-primary">
