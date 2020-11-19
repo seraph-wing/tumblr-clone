@@ -131,3 +131,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_REDIRECT_URL = 'test'#dashboard, when built
 LOGOUT_REDIRECT_URL = 'thanks'
+
+#EMAIL SETTINGS
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = str(BASE_DIR.joinpath('sent_emails'))
