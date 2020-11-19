@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 
 class UserCreateForm(UserCreationForm):
 
-    class Meta(UserCreationForm):
+    class Meta():
         fields = ('username','email','password1','password2','description','profile_picture','birth_date')
         model = get_user_model()
 
@@ -14,4 +14,3 @@ class UserCreateForm(UserCreationForm):
             super().init(*args,**kwargs)
             self.fields['username'].label = 'Display Name'
             self.fields['email'].label = 'E-Mail'
-            
