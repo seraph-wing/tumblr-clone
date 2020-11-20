@@ -7,5 +7,5 @@ from .models import User
 
 from django.contrib.auth.admin import UserAdmin
 
-UserAdmin.fieldsets += ('Profile Fields', {'fields': ('description', 'profile_picture', 'birth_date')}),
+UserAdmin.fieldsets += ('Profile Fields', {'fields': ('description', 'profile_picture', 'birth_date','slug')}),
 admin.site.register(User, UserAdmin)

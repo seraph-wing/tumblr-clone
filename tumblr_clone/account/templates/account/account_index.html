@@ -1,10 +1,13 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
   <div class="container">
     <h2>Welcome to your account!</h2>
-    
-    <p>Your username: {{user.username}}</p>
-
+    {% if object.profile_picture %}
+      <img src="{{ object.profile_picture.url }}" alt="profile_picture" height="40%" width ="40%">
+    {% endif %}
+    <p>Your username: {{object.username}}</p>
+    <p>{{object.description}}</p>
+    <p>Nurse slapped your butt on : {{object.birth_date}}</p>
   </div>
 {% endblock content %}

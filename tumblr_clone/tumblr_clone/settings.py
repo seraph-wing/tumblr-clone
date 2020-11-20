@@ -127,7 +127,7 @@ STATICFILES_DIRS = [
 
 # HANDLING MEDIA
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR.joinpath('media ')
+MEDIA_ROOT = BASE_DIR.joinpath('media')
 
 LOGIN_REDIRECT_URL = 'test'#dashboard, when built
 LOGOUT_REDIRECT_URL = 'thanks'
