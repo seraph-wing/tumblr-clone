@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="container">
+    <h2>Edit your profile here!</h2>
+    <p>Note that you cannot change your username, email and birth date!</p>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <p>Username : {{object.username}}</p>
+      <p>Email : {{object.email}}</p>
+      {{ form|crispy }}
+      <input type="submit" class="btn btn-success" value="Change my profile">
+      <a href="{% url 'account:account_index' slug=object.slug %}" class="btn btn-outline-danger">Cancel</a>
+    </form>
+  </div>
+{% endblock content %}
