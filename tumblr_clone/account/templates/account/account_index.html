@@ -5,9 +5,13 @@
     <h2>Welcome to your account!</h2>
     {% if object.profile_picture %}
       <img src="{{ object.profile_picture.url }}" alt="profile_picture" height="40%" width ="40%">
+    {% else %}
+      <p><b>No profile picture selected!</b></p>
     {% endif %}
-    <p>Your username: {{object.username}}</p>
-    <p>{{object.description}}</p>
-    <p>Nurse slapped your butt on : {{object.birth_date}}</p>
+    <p><b>Your username:</b> {{object.username|safe}}</p>
+    <p><b>About you:</b></p>
+    <p>{{object.description |safe}}</p>
+    <p><b>Nurse slapped your butt on :</b> {{object.birth_date}}</p>
+    <a href="{% url 'account:edit' slug=object.slug %}" class="btn btn-outline-primary">Spice up your profile here</a>
   </div>
 {% endblock content %}
