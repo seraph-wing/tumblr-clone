@@ -38,8 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'account',
+    'post',
     'crispy_forms',
+    'taggit',
+
 ]
+TAGGIT_CASE_INSENSITIVE = True
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 AUTH_USER_MODEL = 'account.User'# used for custom user model
 MIDDLEWARE = [

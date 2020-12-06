@@ -1,0 +1,6 @@
+"Table","Children","Parents","Columns","Constraints"
+"Likes","0","2","2","2"
+"note","0","2","3","2"
+"Post","4","1","11","1"
+"reblogs","0","3","3","3"
+"User","4","0","7","0"
