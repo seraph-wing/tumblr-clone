@@ -6,5 +6,5 @@ app_name = 'post'
 
 
 urlpatterns = [
-    
+    path('create',views.CreatePost.as_view(),name='create'),
 ]

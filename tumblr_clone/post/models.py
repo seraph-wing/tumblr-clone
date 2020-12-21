@@ -35,7 +35,7 @@ class Post(models.Model):
     source = models.URLField(blank=True)
     quote_text = models.CharField(max_length=320,blank=True)
     post_when = models.CharField(max_length=3,choices=POST_WHEN_CHOICES,default='NOW')
-    scheduled_date = models.DateTimeField(blank=True)
+    scheduled_date = models.DateTimeField(blank=True,null=True)
 
     def __str__(self):
         return self.title
