@@ -18,7 +18,7 @@ from django.urls import path,include
 from . import views
 from django.conf.urls.static import static
 from . import settings
-
+from post import views as post_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.HomePage.as_view(),name='index'),
@@ -27,4 +27,5 @@ urlpatterns = [
     path('test/',views.LoginPage.as_view(),name='test'),
     path('thanks/',views.ThanksPage.as_view(),name='thanks'),
     path('post/',include('post.urls')),
+    path('dashboard',post_view.Dashboard.as_view(),name='dashboard'),
 ] +static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import CreateView,TemplateView,UpdateView
+from django.views.generic import CreateView,TemplateView,UpdateView,ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from endless_pagination.views import AjaxListView
 from .models import Post
 # Create your views here.
 
@@ -19,6 +20,13 @@ class CreatePost(CreateView,LoginRequiredMixin):
         self.object.op = self.request.user#adding the op as the one creating the post
         self.object.save()
         return super().form_valid(form)
+
+#DASHBOARD
+class Dashboard(ListView,LoginRequiredMixin):
+    model = Post
+    template_name = 'post\dashboard.html'
+    paginate_by = 20
+    context_object_name = 'posts'
 
 
 # DELETING A POST
