@@ -7,4 +7,6 @@ app_name = 'post'
 
 urlpatterns = [
     path('create',views.CreatePost.as_view(),name='create'),
+    path('view/<username>/<int:pk>',views.PostDetail.as_view(),name='detail'),
+    path('dashboard',views.Dashboard.as_view(),name='dashboard'),
 ]

@@ -4,12 +4,8 @@
   <div class="container">
     {% for post in posts  %}
       <div class="container">
-        {% if post.is_reblogged %}
-          <a class="post-op" href='{% url "account:account_index" slug=user.slug %}'><b>{{post.op}}</b></a>
-        {% endif %}
-
+        {% include "post\_post.html" %}
       </div>
     {% endfor %}
-
   </div>
 {% endblock content %}

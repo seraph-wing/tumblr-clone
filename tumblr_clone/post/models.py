@@ -33,15 +33,14 @@ class Post(models.Model):
     posted_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
     source = models.URLField(blank=True)
-    quote_text = models.CharField(max_length=320,blank=True)
+    quote_text = models.TextField(blank=True)
     post_when = models.CharField(max_length=3,choices=POST_WHEN_CHOICES,default='NOW')
     scheduled_date = models.DateTimeField(blank=True,null=True)
 
     def __str__(self):
         return self.title
     def get_absolute_url(self):
-        #return to post detail page
-        pass
+        return reverse("post:detail",kwargs={"username":self.op.username,"pk":self.pk})
 
 #defining the relations
 class Note(models.Model):
