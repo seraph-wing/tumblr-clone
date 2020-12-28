@@ -33,23 +33,22 @@ class Post(models.Model):
     posted_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
     source = models.URLField(blank=True)
-    quote_text = models.CharField(max_length=320,blank=True)
+    quote_text = models.TextField(blank=True)
     post_when = models.CharField(max_length=3,choices=POST_WHEN_CHOICES,default='NOW')
-    scheduled_date = models.DateTimeField(blank=True)
+    scheduled_date = models.DateTimeField(blank=True,null=True)
 
     def __str__(self):
         return self.title
     def get_absolute_url(self):
-        #return to post detail page
-        pass
+        return reverse("post:detail",kwargs={"username":self.op.username,"pk":self.pk})
 
 #defining the relations
-class Notes(models.Model):
+class Note(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     note = models.TextField()
 
-class Likes(models.Model):
+class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     liked_on = models.DateTimeField(auto_now=True)
@@ -58,7 +57,9 @@ class Likes(models.Model):
         ordering = ['-liked_on']#ordering on liked on so it is returned in descending order
 
 
-class Reblogs(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    post = models.ForeignKey(Post,on_delete=models.CASCADE)
+class Reblog(models.Model):
+    reblogger = models.ForeignKey(User,on_delete=models.CASCADE,related_name='reblogger')
+    parent_post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='parent_post')
     reblogged_content = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='reblogged_content')
+    def __str__(self):
+        return 'reblog | '+str(self.id)

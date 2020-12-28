@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>tumblr</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <!--navbar to be implemented here-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      
+        <!--user is not logged in there fore they need to login-->
+        <a class="navbar-brand" href='/account/signup/'>t-d</a><!--dashboard-->
+        <form class="form-inline my-2 my-lg-0"><!--search option-->
+          <input class="form-control mr-sm-2" type="search" placeholder="Search tumblr-d" aria-label="Search">
+          <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <ul class="navbar-nav ml-auto">
+          <!--dashboard-->
+          <li class="nav-item">
+            <a class="nav-link" href="/account/login/">Log in</a>
+          </li
+          <li class="nav-item">
+            <a class="nav-link" href="/account/signup/">Sign Up</a>
+          </li>
+        </ul>
+      
+    </nav>
+    
+  <div class="container">
+    <h2>Create a new post!</h2>
+    <form method="post" enctype="multipart/form-data">
+      <input type="hidden" name="csrfmiddlewaretoken" value="OWq9wuP2STd4jHnCHepxV9G6VsKMFWtYEWwQ6Q6B2tIkHbpvaBxVy0107cRdeQVB">
+      
+
+<div id="div_id_post_type" class="form-group"> <label for="id_post_type" class=" requiredField">
+                Post type<span class="asteriskField">*</span> </label> <div class=""> <select name="post_type" class="select form-control" id="id_post_type"> <option value="TXT" selected>Text</option> <option value="Q">Quote</option> <option value="IMG">Image</option> <option value="VID">Video</option> <option value="GIF">GIF</option> <option value="AUD">Audio</option>
+
+</select> </div> </div> <div id="div_id_title" class="form-group"> <label for="id_title" class=" requiredField">
+                Title<span class="asteriskField">*</span> </label> <div class=""> <input type="text" name="title" value=" " maxlength="128" class="textinput textInput form-control" required id="id_title"> </div> </div> <div id="div_id_text" class="form-group"> <label for="id_text" class="">
+                Text
+            </label> <div class=""> <textarea name="text" cols="40" rows="10" class="textarea form-control" id="id_text">
+</textarea> </div> </div> <div id="div_id_image" class="form-group"> <label for="id_image" class="">
+                Image
+            </label> <div class=""> <input type="file" name="image" accept="image/*" class="clearablefileinput form-control-file" id="id_image"> </div> </div> <div id="div_id_video" class="form-group"> <label for="id_video" class="">
+                Video
+            </label> <div class=""> <input type="file" name="video" class="clearablefileinput form-control-file" id="id_video"> </div> </div> <div id="div_id_gif" class="form-group"> <label for="id_gif" class="">
+                Gif
+            </label> <div class=""> <input type="file" name="gif" class="clearablefileinput form-control-file" id="id_gif"> </div> </div> <div id="div_id_audio" class="form-group"> <label for="id_audio" class="">
+                Audio
+            </label> <div class=""> <input type="file" name="audio" class="clearablefileinput form-control-file" id="id_audio"> </div> </div> <div id="div_id_tags" class="form-group"> <label for="id_tags" class="">
+                Tags
+            </label> <div class=""> <input type="text" name="tags" class="tagwidget form-control" id="id_tags"> <small id="hint_id_tags" class="form-text text-muted">A comma-separated list of tags.</small> </div> </div> <div id="div_id_source" class="form-group"> <label for="id_source" class="">
+                Source
+            </label> <div class=""> <input type="url" name="source" maxlength="200" class="urlinput form-control" id="id_source"> </div> </div> <div id="div_id_quote_text" class="form-group"> <label for="id_quote_text" class="">
+                Quote text
+            </label> <div class=""> <input type="text" name="quote_text" maxlength="320" class="textinput textInput form-control" id="id_quote_text"> </div> </div> <div id="div_id_post_when" class="form-group"> <label for="id_post_when" class=" requiredField">
+                Post when<span class="asteriskField">*</span> </label> <div class=""> <select name="post_when" class="select form-control" id="id_post_when"> <option value="NOW" selected>Post Now</option> <option value="QU">Add to queue</option> <option value="DR">Add to draft</option> <option value="PR">Post privately</option> <option value="SC">Schedule</option>
+
+</select> </div> </div> <div id="div_id_scheduled_date" class="form-group"> <label for="id_scheduled_date" class="">
+                Scheduled date
+            </label> <div class=""> <input type="text" name="scheduled_date" class="datetimeinput form-control" id="id_scheduled_date"> </div> </div>
+
+      <input type="submit" class="btn btn-primary" value="Post">
+      <a href="#" class="btn btn-outline-danger">Cancel</a>
+    </form>
+  </div>
+
+  </body>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+</html>
