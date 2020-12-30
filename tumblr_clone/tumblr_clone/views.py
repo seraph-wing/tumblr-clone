@@ -1,6 +1,8 @@
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
+app_name = 'home'
+
 
 class LoginPage(TemplateView):
     template_name = 'login.html'

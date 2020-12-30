@@ -8,9 +8,10 @@ class User(AbstractUser):
     profile_picture = models.ImageField(upload_to='profile_pictures/',blank=True,null=True)
     birth_date = models.DateField(null=True,blank=True)
     slug = models.SlugField(null=False,default='slugs')
+    followers = models.ManyToManyField("User",blank=True,null=True,symmetrical=False,related_name='following')
 
     def __str__(self):
-        return f"@{self.username}"
+        return self.username
     def get_absolute_url(self):
         return reverse('account:account_index', kwargs={'slug':self.slug})
 

@@ -14,6 +14,7 @@ class AccountIndex(LoginRequiredMixin,DetailView):
 class SignUpView(CreateView):
     form_class = forms.UserCreateForm
     success_url = reverse_lazy('login')
+    exclude = ('followers',)
     template_name = 'account/signup.html'
 
 class LoginView(TemplateView):

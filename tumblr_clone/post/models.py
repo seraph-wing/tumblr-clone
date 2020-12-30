@@ -36,6 +36,8 @@ class Post(models.Model):
     quote_text = models.TextField(blank=True)
     post_when = models.CharField(max_length=3,choices=POST_WHEN_CHOICES,default='NOW')
     scheduled_date = models.DateTimeField(blank=True,null=True)
+    class Meta:
+        ordering = ['-modified_on']
 
     def __str__(self):
         return self.title
