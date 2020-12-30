@@ -56,7 +56,7 @@ class EditPost(LoginRequiredMixin,UpdateView):
     slug_field = 'pk'
 
     def get_success_url(self,*args,**kwargs):
-        return reverse_lazy('post:detail',kwargs={'username':user.username,'pk':self.object.pk})
+        return reverse_lazy('post:detail',kwargs={'username':User.username,'pk':self.object.pk})
 
 
 

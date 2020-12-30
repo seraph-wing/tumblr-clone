@@ -43,6 +43,6 @@
         {% endif %}
       </ul>
     </div>
-
+    <a href="{% url 'post:user_posts' username=object.username %}" class="btn btn-outline-primary">View all posts by this user here!</a>
   </div>
 {% endblock content %}
