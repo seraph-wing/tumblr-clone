@@ -12,8 +12,37 @@
     <p><b>About you:</b></p>
     <p>{{object.description |safe}}</p>
     <p><b>Nurse slapped your butt on :</b> {{object.birth_date}}</p>
-    {% if user.is_authenticated and object.username == request.user.username %}
+    {% if object.username == request.user.username %}
       <a href="{% url 'account:edit' slug=object.slug %}" class="btn btn-outline-primary">Spice up your profile here</a>
+      {% else %}
+        {% if request.user in object.followers.all %}
+        <form class="unfollow-form" method="post" action="{% url 'account:unfollow' object.pk %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-warning" value="{{object.id}}" name="user_id_unfollow">Unfollow</button>
+        </form>
+
+          {% else %}
+          <form class="follow-form" method="post" action="{% url 'account:follow' object.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-primary" value="{{object.id}}" name="user_id_follow">Follow</button>
+          </form>
+        {% endif %}
     {% endif %}
+    <div class="row-md-8">
+      <h3>{{object.username}}'s followers:</h3>
+      <ul class="user-followers">
+        {% if object.followers.count == 1 %}
+          <p><b>No followers unfortunately :/</b></p>
+          {% else %}
+            {% for follower in object.followers.all %}
+              {% if follower != object %}
+                <li><a href="{% url 'account:account_index' follower.slug %}">{{follower.username}}</a></li>
+              {% endif %}
+
+            {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+    <a href="{% url 'post:user_posts' username=object.username %}" class="btn btn-outline-primary">View all posts by this user here!</a>
   </div>
 {% endblock content %}
