@@ -27,7 +27,7 @@ class Post(models.Model):
     video = models.FileField(upload_to='post/videos/',blank=True,null=True)
     gif = models.FileField(upload_to='post/gifs/',blank=True,null=True)
     audio = models.FileField(upload_to='post/audio/',blank=True,null=True)
-    op = models.ForeignKey(User,on_delete=models.CASCADE)
+    op = models.ForeignKey(User,on_delete=models.CASCADE,related_name='posts')
     is_reblogged = models.BooleanField(default=False,blank=True)
     tags = TaggableManager(blank=True)#to manage tagging
     posted_on = models.DateTimeField(auto_now_add=True)

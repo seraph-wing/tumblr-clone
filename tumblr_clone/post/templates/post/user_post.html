@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      {% for post in user_posts  %}
+        {% include "post\_post.html"%}
+      {% endfor %}
+    </div>
+  </div>
+{% endblock content %}

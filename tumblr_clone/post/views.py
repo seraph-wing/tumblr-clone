@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.views.generic import CreateView,TemplateView,UpdateView,ListView,DeleteView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy,reverse
 from django.contrib import messages
 #from braces.views import SelectRelatedMixin
-user = get_user_model()
+User = get_user_model()
 from .models import Post
 # Create your views here.
 
@@ -43,7 +43,7 @@ class PostDetail(DetailView):
 class PostDelete(DeleteView,LoginRequiredMixin):
     model = Post
     template_name = 'post\post_delete.html'
-    success_url = reverse_lazy('post:dashboard')
+    success_url = reverse_lazy('dashboard')
     def delete(self, *args, **kwargs):
         messages.success(self.request, "Post Deleted")
         return super().delete(*args, **kwargs)
@@ -65,3 +65,14 @@ class EditPost(LoginRequiredMixin,UpdateView):
 
 # LIKING A POST
 #  https://www.youtube.com/watch?v=PXqRPqDjDgc
+#USER POSTS
+class UserPosts(ListView,LoginRequiredMixin):
+    model = Post
+    template_name = 'post/user_post.html'
+    paginate_by = 20
+    context_object_name = 'user_posts'
+
+    def get_queryset(self):
+        self.username = get_object_or_404(User,username=self.kwargs['username'])
+        all_posts = Post.objects.all().filter(op__exact=self.username)
+        return all_posts
