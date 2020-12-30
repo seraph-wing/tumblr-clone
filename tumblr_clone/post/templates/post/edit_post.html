@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="container">
+    <h2>Edit your post</h2>
+    <form class="post-edit" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{form | crispy}}
+      <input type="submit" value="Post" class="btn btn-outline-primary">
+      <a href="{% url 'post:dashboard' %}">Cancel</a>
+    </form>
+  </div>
+{% endblock content %}

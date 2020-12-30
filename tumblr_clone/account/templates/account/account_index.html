@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
   <div class="container">
-    <h2>Welcome to your account!</h2>
+    <h2>Welcome to the blog of {{object.username}}!</h2>
     {% if object.profile_picture %}
       <img src="{{ object.profile_picture.url }}" alt="profile_picture" height="40%" width ="40%">
     {% else %}
@@ -12,6 +12,8 @@
     <p><b>About you:</b></p>
     <p>{{object.description |safe}}</p>
     <p><b>Nurse slapped your butt on :</b> {{object.birth_date}}</p>
-    <a href="{% url 'account:edit' slug=object.slug %}" class="btn btn-outline-primary">Spice up your profile here</a>
+    {% if user.is_authenticated and object.username == request.user.username %}
+      <a href="{% url 'account:edit' slug=object.slug %}" class="btn btn-outline-primary">Spice up your profile here</a>
+    {% endif %}
   </div>
 {% endblock content %}

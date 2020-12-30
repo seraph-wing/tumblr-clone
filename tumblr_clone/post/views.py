@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from django.views.generic import CreateView,TemplateView,UpdateView,ListView
+from django.views.generic import CreateView,TemplateView,UpdateView,ListView,DeleteView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
+from django.urls import reverse_lazy,reverse
+from django.contrib import messages
 #from braces.views import SelectRelatedMixin
 user = get_user_model()
 from .models import Post
@@ -30,14 +32,32 @@ class Dashboard(ListView,LoginRequiredMixin):
     paginate_by = 20
     context_object_name = 'posts'
 
+
+# VIEW POST DETAILS
 class PostDetail(DetailView):
     model = Post
     template_name = 'post\detail.html'
+
 # DELETING A POST
 
-# EDITING A POST
+class PostDelete(DeleteView,LoginRequiredMixin):
+    model = Post
+    template_name = 'post\post_delete.html'
+    success_url = reverse_lazy('post:dashboard')
+    def delete(self, *args, **kwargs):
+        messages.success(self.request, "Post Deleted")
+        return super().delete(*args, **kwargs)
 
-# VIEW POST DETAILS
+# EDITING A POST
+class EditPost(LoginRequiredMixin,UpdateView):
+    model = Post
+    fields = ['post_type','title','text','image','video','gif','audio','tags','source','quote_text']
+    template_name = 'post\edit_post.html'
+    slug_field = 'pk'
+
+    def get_success_url(self,*args,**kwargs):
+        return reverse_lazy('post:detail',kwargs={'username':user.username,'pk':self.object.pk})
+
 
 
 # REBLOGGING A POST

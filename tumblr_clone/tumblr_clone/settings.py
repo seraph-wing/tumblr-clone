@@ -133,7 +133,7 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media')
 
-LOGIN_REDIRECT_URL = 'test'#dashboard, when built
+LOGIN_REDIRECT_URL = 'dashboard'#dashboard, when built
 LOGOUT_REDIRECT_URL = 'thanks'
 
 #EMAIL SETTINGS
