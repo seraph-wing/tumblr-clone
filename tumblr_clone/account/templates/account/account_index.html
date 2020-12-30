@@ -31,9 +31,16 @@
     <div class="row-md-8">
       <h3>{{object.username}}'s followers:</h3>
       <ul class="user-followers">
-        {% for follower in object.followers.all %}
-          <li><a href="{% url 'account:account_index' follower.slug %}">{{follower.username}}</a></li>
-        {% endfor %}
+        {% if object.followers.count == 1 %}
+          <p><b>No followers unfortunately :/</b></p>
+          {% else %}
+            {% for follower in object.followers.all %}
+              {% if follower != object %}
+                <li><a href="{% url 'account:account_index' follower.slug %}">{{follower.username}}</a></li>
+              {% endif %}
+
+            {% endfor %}
+        {% endif %}
       </ul>
     </div>
 

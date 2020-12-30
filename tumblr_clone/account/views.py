@@ -26,7 +26,6 @@ class UpdateUserView(LoginRequiredMixin,UpdateView):
     fields = ['description', 'profile_picture']
     template_name = 'account/edit_user.html'
     slug_field = 'slug'
-    #success_url = reverse_lazy('account:account_index',kwargs={'slug':model.slug})
     def get_success_url(self,*args,**kwargs):
 
         return reverse_lazy('account:account_index',kwargs={'slug':self.request.user.slug})
