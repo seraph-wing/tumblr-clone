@@ -32,8 +32,13 @@ class Dashboard(ListView,LoginRequiredMixin):
     paginate_by = 20
     context_object_name = 'posts'
 
+    def get_queryset(self):
+        u =self.request.user
+        following_users = u.is_followed_by.all()
+        follow_posts = Post.objects.all().filter(op__in=following_users)
+        return follow_posts
+#VIEW POST DETAILS
 
-# VIEW POST DETAILS
 class PostDetail(DetailView):
     model = Post
     template_name = 'post\detail.html'

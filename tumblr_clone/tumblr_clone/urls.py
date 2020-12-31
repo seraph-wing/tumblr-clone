@@ -18,6 +18,9 @@ from django.urls import path,include
 from . import views
 from django.conf.urls.static import static
 from . import settings
+import debug_toolbar
+
+
 from post import views as post_view
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,4 +31,5 @@ urlpatterns = [
     path('thanks/',views.ThanksPage.as_view(),name='thanks'),
     path('post/',include('post.urls')),
     path('dashboard',post_view.Dashboard.as_view(),name='dashboard'),
+    path('__debug__/', include(debug_toolbar.urls)),
 ] +static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
