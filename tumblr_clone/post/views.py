@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy,reverse
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 #from braces.views import SelectRelatedMixin
 User = get_user_model()
 from .models import Post
@@ -32,8 +33,13 @@ class Dashboard(ListView,LoginRequiredMixin):
     paginate_by = 20
     context_object_name = 'posts'
 
+    def get_queryset(self):
+        u =self.request.user
+        following_users = u.is_followed_by.all()
+        follow_posts = Post.objects.all().filter(op__in=following_users)
+        return follow_posts
+#VIEW POST DETAILS
 
-# VIEW POST DETAILS
 class PostDetail(DetailView):
     model = Post
     template_name = 'post\detail.html'
@@ -64,6 +70,16 @@ class EditPost(LoginRequiredMixin,UpdateView):
 
 
 # LIKING A POST
+def like(request,pk):
+    post_to_be_liked = get_object_or_404(Post,id=request.POST.get('post_like'))
+    post_to_be_liked.likes.add(request.user)
+    return HttpResponseRedirect(reverse('dashboard'))
+#UNLIKING A POST
+def unlike(request,pk):
+    post_to_be_unliked = get_object_or_404(Post,id=request.POST.get('post_unlike'))
+    post_to_be_unliked.likes.remove(request.user)
+    return HttpResponseRedirect(reverse('dashboard'))
+
 #  https://www.youtube.com/watch?v=PXqRPqDjDgc
 #USER POSTS
 class UserPosts(ListView,LoginRequiredMixin):
