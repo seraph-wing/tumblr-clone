@@ -36,6 +36,10 @@ class Post(models.Model):
     quote_text = models.TextField(blank=True)
     post_when = models.CharField(max_length=3,choices=POST_WHEN_CHOICES,default='NOW')
     scheduled_date = models.DateTimeField(blank=True,null=True)
+    likes = models.ManyToManyField(User, through='Like',related_name='liked_posts')
+    reblogs = models.ManyToManyField(User, through='Reblog',through_fields=('parent_post','reblogger'),related_name='reblogged_posts')
+    notes = models.ManyToManyField(User, through='Note',related_name='post_noted')
+    
     class Meta:
         ordering = ['-modified_on']
 
@@ -50,6 +54,8 @@ class Note(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     note = models.TextField()
 
+
+
 class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -60,8 +66,8 @@ class Like(models.Model):
 
 
 class Reblog(models.Model):
-    reblogger = models.ForeignKey(User,on_delete=models.CASCADE,related_name='reblogger')
-    parent_post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='parent_post')
+    reblogger = models.ForeignKey(User,on_delete=models.CASCADE)
+    parent_post = models.ForeignKey(Post,on_delete=models.CASCADE)
     reblogged_content = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='reblogged_content')
     def __str__(self):
         return 'reblog | '+str(self.id)
