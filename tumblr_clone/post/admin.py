@@ -11,7 +11,7 @@ class NoteInline(admin.TabularInline):
     extra = 1
 class ReblogInline(admin.TabularInline):
     model = Reblog
-    fk_name='parent_post'
+    fk_name='reblogged_content'
     extra = 1
 #ADMIN CLASS FOR DISPLAYING THE ACTIONS FIELDS
 class PostAdmin(admin.ModelAdmin):
