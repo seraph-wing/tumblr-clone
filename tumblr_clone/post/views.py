@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 #from braces.views import SelectRelatedMixin
 User = get_user_model()
-from .models import Post
+from .models import Post,Reblog
 # Create your views here.
 
 
@@ -38,6 +38,20 @@ class Dashboard(ListView,LoginRequiredMixin):
         following_users = u.is_followed_by.all()
         follow_posts = Post.objects.all().filter(op__in=following_users)
         return follow_posts
+    """"
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        for object in self.object_list:
+            if object.is_reblogged:
+                try:
+                    reblogged_from = Reblog.objects.get(reblogged_content=object).parent_post.op
+                    context['reblogged_from'] = reblogged_from
+                except Reblog.DoesNotExist:
+                    continue
+        return context
+    """
+
+
 #VIEW POST DETAILS
 
 class PostDetail(DetailView):
@@ -73,12 +87,14 @@ class EditPost(LoginRequiredMixin,UpdateView):
 def like(request,pk):
     post_to_be_liked = get_object_or_404(Post,id=request.POST.get('post_like'))
     post_to_be_liked.likes.add(request.user)
-    return HttpResponseRedirect(reverse('dashboard'))
+    next = request.POST.get('next','/')
+    return HttpResponseRedirect(next)
 #UNLIKING A POST
 def unlike(request,pk):
     post_to_be_unliked = get_object_or_404(Post,id=request.POST.get('post_unlike'))
     post_to_be_unliked.likes.remove(request.user)
-    return HttpResponseRedirect(reverse('dashboard'))
+    next = request.POST.get('next','/')
+    return HttpResponseRedirect(next)
 
 #  https://www.youtube.com/watch?v=PXqRPqDjDgc
 #USER POSTS

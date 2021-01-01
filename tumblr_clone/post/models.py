@@ -37,9 +37,9 @@ class Post(models.Model):
     post_when = models.CharField(max_length=3,choices=POST_WHEN_CHOICES,default='NOW')
     scheduled_date = models.DateTimeField(blank=True,null=True)
     likes = models.ManyToManyField(User, through='Like',related_name='liked_posts')
-    reblogs = models.ManyToManyField(User, through='Reblog',through_fields=('parent_post','reblogger'),related_name='reblogged_posts')
+    reblogs = models.ManyToManyField(User, through='Reblog',through_fields=('reblogged_content','reblogged_from'),related_name='reblogged_posts')
     notes = models.ManyToManyField(User, through='Note',related_name='post_noted')
-    
+
     class Meta:
         ordering = ['-modified_on']
 
@@ -66,8 +66,14 @@ class Like(models.Model):
 
 
 class Reblog(models.Model):
-    reblogger = models.ForeignKey(User,on_delete=models.CASCADE)
-    parent_post = models.ForeignKey(Post,on_delete=models.CASCADE)
+    reblogged_from = models.ForeignKey(User,on_delete=models.CASCADE)#parent_post.op
+    parent_post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='parent_of')
     reblogged_content = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='reblogged_content')
     def __str__(self):
         return 'reblog | '+str(self.id)
+
+from django.db.models.signals import post_save
+def add_reblogged_from(sender, instance, **kwargs):
+   instance.reblogged_from = instance.parent_post.op
+   #instance.save()
+post_save.connect(add_reblogged_from, sender=Reblog)
