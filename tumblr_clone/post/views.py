@@ -38,18 +38,17 @@ class Dashboard(ListView,LoginRequiredMixin):
         following_users = u.is_followed_by.all()
         follow_posts = Post.objects.all().filter(op__in=following_users)
         return follow_posts
-    """"
+
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
+        reblogged_from =[]
         for object in self.object_list:
             if object.is_reblogged:
-                try:
-                    reblogged_from = Reblog.objects.get(reblogged_content=object).parent_post.op
-                    context['reblogged_from'] = reblogged_from
-                except Reblog.DoesNotExist:
-                    continue
+                reblogged_from.append((object.pk, object.reblogs.all()[0]))
+                print(reblogged_from)
+                print(context)
+                context['reblogged_from'] = reblogged_from
         return context
-    """
 
 
 #VIEW POST DETAILS
@@ -57,6 +56,15 @@ class Dashboard(ListView,LoginRequiredMixin):
 class PostDetail(DetailView):
     model = Post
     template_name = 'post\detail.html'
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object.is_reblogged:
+            reblogged_from = self.object.reblogs.all()[0]
+            print(reblogged_from.slug)
+            print(context)
+            context['reblogged_from'] = reblogged_from
+        return context
+
 
 # DELETING A POST
 
