@@ -30,6 +30,10 @@ class UpdateUserView(LoginRequiredMixin,UpdateView):
 
         return reverse_lazy('account:account_index',kwargs={'slug':self.request.user.slug})
 
+class LikeView(DetailView):
+    model = User
+    template_name= 'account/likes.html'
+
 def follow(request,pk):
     user_to_be_followed = get_object_or_404(User,id=request.POST.get('user_id_follow'))
     user_to_be_followed.followers.add(request.user)

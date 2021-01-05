@@ -44,14 +44,7 @@
       </ul>
     </div>
     <a href="{% url 'post:user_posts' username=object.username %}" class="btn btn-outline-primary">View all posts by this user here!</a>
-    <div class="user-likes">
-      <h3>Your liked posts:</h3>
-      {% for post in object.liked_posts.all %}
-        <div class="container">
-          {% include "post\_post.html" with post=post %}
-        </div>
-      {% endfor %}
-    </div>
+    <h3><a href="{% url 'account:likes' object.slug %}" class="btn btn-outline-secondary">posts liked by this user</a></h3>
 
 
   </div>
