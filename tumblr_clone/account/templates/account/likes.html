@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    <h2>{{object.username}}'s liked posts</h2>
+    <div class="container liked-posts">
+      {% for post in object.liked_posts.all %}
+        <div class="container">
+          {% include "post\_post.html" with post=post %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock content %}

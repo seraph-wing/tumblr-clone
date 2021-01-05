@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: vishwangdave@gmail.com
+Date: Tue, 05 Jan 2021 08:25:48 -0000
+Message-ID: <160983514878.8480.17181521491221405248@LAPTOP-TO10CA24>
+
+
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/accounts/reset/Mw/ag09d0-2f5fe3d40c9a6328d862174af06b10f0/
+
+Your username, in case you’ve forgotten: seraph_wing
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team
+
+
+
+-------------------------------------------------------------------------------
