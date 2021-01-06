@@ -14,4 +14,5 @@ urlpatterns = [
     path('view/<username>',views.UserPosts.as_view(),name='user_posts'),
     path('like/<int:pk>',views.like,name='like'),
     path('unlike/<int:pk>',views.unlike,name='unlike'),
+    path('reblog/<int:pk>',views.ReblogPost.as_view(),name='reblog'),
 ]

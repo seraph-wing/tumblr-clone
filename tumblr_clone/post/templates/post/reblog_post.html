@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="container">
+    <h2>Reblog a post</h2>
+    <div class="container parent_post-content">
+      {% include "post/_post.html" with post=parent_post %}
+      <hr>
+    </div>
+    <form class="reblog-post" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{form | crispy}}
+      <input type="submit" class="btn btn-success" value="Reblog">
+      <a href="{% url 'dashboard' %}" class="btn btn-outline-danger">Cancel</a>
+    </form>
+  </div>
+{% endblock content %}
