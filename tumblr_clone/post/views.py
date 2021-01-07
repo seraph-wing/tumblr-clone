@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 #from braces.views import SelectRelatedMixin
 User = get_user_model()
-from .models import Post,Reblog
+from .models import Post,Reblog,Note
 # Create your views here.
 
 
@@ -20,6 +20,7 @@ class CreatePost(CreateView,LoginRequiredMixin):
     model = Post
     fields = ['post_type','title','text','image','video','gif','audio','tags','source','quote_text','post_when','scheduled_date']
     template_name = 'post/new_post.html'
+    success_url = reverse_lazy('dashboard')
     def form_valid(self,form):
         self.object = form.save(commit=False)
         self.object.op = self.request.user#adding the op as the one creating the post
@@ -69,7 +70,7 @@ class EditPost(LoginRequiredMixin,UpdateView):
 
 
 
-# REBLOGGING A POST
+
 
 
 # LIKING A POST
@@ -97,3 +98,57 @@ class UserPosts(ListView,LoginRequiredMixin):
         self.username = get_object_or_404(User,username=self.kwargs['username'])
         all_posts = Post.objects.all().filter(op__exact=self.username)
         return all_posts
+
+# REBLOGGING A POST
+class ReblogPost(CreateView,LoginRequiredMixin):
+    model = Post
+    fields = ['post_type','title','text','image','video','gif','audio','tags','source','quote_text','post_when','scheduled_date']
+    template_name = 'post/reblog_post.html'
+    success_url = reverse_lazy('dashboard')
+
+    def form_valid(self,form):
+        self.object = form.save(commit=False)
+        self.object.op = self.request.user#adding the op as the one creating the post
+        self.object.is_reblogged = True
+        parent_post = Post.objects.get(pk=self.kwargs['pk'])
+        self.object.text = parent_post.text + '<hr>' + self.object.text
+        self.object.image = parent_post.image
+        self.object.save()
+        self.object.reblogs.add(parent_post.op,through_defaults={'parent_post':parent_post})
+        self.object.save()
+        return super().form_valid(form)
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        parent_post = Post.objects.get(pk=self.kwargs['pk'])
+        context['parent_post'] = parent_post#adding the context so it can be displayed with the form
+        return context
+#ADDING NOTES TO A POST
+
+class AddNote(CreateView,LoginRequiredMixin):
+    model = Note
+    fields = ['note']
+    success_url = reverse_lazy('dashboard')
+    template_name = 'post/add_note.html'
+
+    def form_valid(self,form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        post_to_add_note = Post.objects.get(pk=self.kwargs['pk'])
+        self.object.post = post_to_add_note
+        self.object.save()
+        return super().form_valid(form)
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        post_to_add_note = Post.objects.get(pk=self.kwargs['pk'])
+        context['post'] = post_to_add_note #adding the context so it can be displayed with the form
+        return context
+#ALL NOTES FOR POST
+class NotesList(ListView,LoginRequiredMixin):
+    model = Note
+    template_name = 'post/all_notes.html'
+    context_object_name = 'post_notes'
+
+    def get_queryset(self,**kwargs):
+        post_notes = Note.objects.all().select_related('post').filter(post__pk__iexact=self.kwargs['pk'])
+        return post_notes

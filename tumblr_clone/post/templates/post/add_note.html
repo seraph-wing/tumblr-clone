@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="container">
+    <h2>Add a note to the post</h2>
+    <div class="container post-to-add-note">
+      {% include "post/_post.html" with post=post %}
+    </div>
+    <div class="container add-note-form">
+      <form class="add-note" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="Add note" class="btn btn-primary">
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-danger">Cancel</a>
+      </form>
+    </div>
+  </div>
+{% endblock content %}
