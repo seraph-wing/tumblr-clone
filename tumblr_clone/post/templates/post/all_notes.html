@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    <h4>{{post_notes.count}} notes</h4>
+    {% for notes in post_notes %}
+      <hr>
+      <h4><a href="{% url 'account:account_index' notes.user.slug %}">{{notes.user}}</a></h4>
+      <span>{{notes.note|safe}}</span>
+      <hr>
+    {% endfor %}
+    {% for notes in post_notes|slice:":1"  %}
+      <a href="{% url 'post:add_note' notes.post.pk %}" class="btn btn-primary">Add a note here</a>
+    {% endfor %}
+  </div>
+{% endblock content %}

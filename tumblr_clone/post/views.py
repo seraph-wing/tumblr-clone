@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 #from braces.views import SelectRelatedMixin
 User = get_user_model()
-from .models import Post,Reblog
+from .models import Post,Reblog,Note
 # Create your views here.
 
 
@@ -122,3 +122,33 @@ class ReblogPost(CreateView,LoginRequiredMixin):
         parent_post = Post.objects.get(pk=self.kwargs['pk'])
         context['parent_post'] = parent_post#adding the context so it can be displayed with the form
         return context
+#ADDING NOTES TO A POST
+
+class AddNote(CreateView,LoginRequiredMixin):
+    model = Note
+    fields = ['note']
+    success_url = reverse_lazy('dashboard')
+    template_name = 'post/add_note.html'
+
+    def form_valid(self,form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        post_to_add_note = Post.objects.get(pk=self.kwargs['pk'])
+        self.object.post = post_to_add_note
+        self.object.save()
+        return super().form_valid(form)
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        post_to_add_note = Post.objects.get(pk=self.kwargs['pk'])
+        context['post'] = post_to_add_note #adding the context so it can be displayed with the form
+        return context
+#ALL NOTES FOR POST
+class NotesList(ListView,LoginRequiredMixin):
+    model = Note
+    template_name = 'post/all_notes.html'
+    context_object_name = 'post_notes'
+
+    def get_queryset(self,**kwargs):
+        post_notes = Note.objects.all().select_related('post').filter(post__pk__iexact=self.kwargs['pk'])
+        return post_notes
