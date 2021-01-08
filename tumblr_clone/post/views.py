@@ -66,7 +66,7 @@ class EditPost(LoginRequiredMixin,UpdateView):
     slug_field = 'pk'
 
     def get_success_url(self,*args,**kwargs):
-        return reverse_lazy('post:detail',kwargs={'username':User.username,'pk':self.object.pk})
+        return reverse_lazy('post:detail',kwargs={'username':self.request.user.username,'pk':self.object.pk})
 
 
 
@@ -78,12 +78,17 @@ def like(request,pk):
     post_to_be_liked = get_object_or_404(Post,id=request.POST.get('post_like'))
     post_to_be_liked.likes.add(request.user)
     next = request.POST.get('next','/')
+    #adding to notes
+    like_note = Note.objects.create(post=post_to_be_liked,user=request.user,note='LIKED')
     return HttpResponseRedirect(next)
 #UNLIKING A POST
 def unlike(request,pk):
     post_to_be_unliked = get_object_or_404(Post,id=request.POST.get('post_unlike'))
     post_to_be_unliked.likes.remove(request.user)
     next = request.POST.get('next','/')
+    #removing from NOTES
+    note_unlike = Note.objects.get(post=post_to_be_unliked,note='LIKED',user=request.user)
+    note_unlike.delete()
     return HttpResponseRedirect(next)
 
 #  https://www.youtube.com/watch?v=PXqRPqDjDgc
@@ -115,6 +120,7 @@ class ReblogPost(CreateView,LoginRequiredMixin):
         self.object.image = parent_post.image
         self.object.save()
         self.object.reblogs.add(parent_post.op,through_defaults={'parent_post':parent_post})
+        reblog_note = Note.objects.create(post=parent_post,user=self.request.user,note=self.object.text)
         self.object.save()
         return super().form_valid(form)
     def get_context_data(self,**kwargs):
