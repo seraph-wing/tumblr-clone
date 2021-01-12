@@ -39,10 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'account',
     'post',
+    'postman',
     'crispy_forms',
     'taggit',
     'debug_toolbar',
-    'messaging',
+
 
 ]
 TAGGIT_CASE_INSENSITIVE = True
@@ -58,6 +59,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+POSTMAN_SHOW_USER_AS = 'username'
+POSTMAN_AUTO_MODERATE_AS = True
 
 ROOT_URLCONF = 'tumblr_clone.urls'
 INTERNAL_IPS = [

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  {% for conversers in users %}
+      {% if self.request.user=conversers.sender %}
+        {% comment %}
+          that means the current user has sent the message
+        {% endcomment %}
+      {% endif %}
+  {% endfor %}
+</div>
+<style>
+
+</style>
+{% endblock content %}
