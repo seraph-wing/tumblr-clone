@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'taggit',
     'debug_toolbar',
+    'messaging',
 
 ]
 TAGGIT_CASE_INSENSITIVE = True
