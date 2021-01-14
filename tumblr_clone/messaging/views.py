@@ -12,16 +12,24 @@ from django.http import HttpResponseRedirect
 from .models import Message
 from account.models import User
 
-class AllMessagesByUser(ListView):
+class AllMessagesByUser(CreateView,LoginRequiredMixin):
     model = Message
     template_name = 'messaging/allmessages.html'
-    context_object_name = 'user_messages'
-    paginate_by = 30
+    fields = ['message']
+    success_url = reverse_lazy('message:conversations')
 
-    def get_queryset(self):
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
         user1 = self.request.user
         user2 = User.objects.get(pk=self.kwargs['pk'])
-        return Message.objects.all().filter((Q(sender__exact=user1) & Q(receiver__exact=user2)) | (Q(sender__exact=user2) & Q(receiver__exact=user1)))
+        context['user_messages'] = Message.objects.all().filter((Q(sender__exact=user1) & Q(receiver__exact=user2)) | (Q(sender__exact=user2) & Q(receiver__exact=user1)))
+        return context
+    def form_valid(self,form):
+        self.object = form.save(commit=False)
+        self.object.sender = self.request.user#adding the op as the one creating the post
+        self.object.receiver = User.objects.get(pk=self.kwargs['pk'])
+        self.object.save()
+        return super().form_valid(form)
 
 
 class Converstaions(ListView):
