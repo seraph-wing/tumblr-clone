@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class="container">
+  {% for message in user_messages %}
+    {% if message.sender == request.user %}
+      <div class="user-sent" style="background-color:white;color:black;align-items:right">
+        <h4 class='message-sender' style="border-bottom:2px;padding:3px">{{message.sender.username}}</h4>
+        <span class='message' style="align:right">{{message.message|safe}}</span>
+        <p><small>{{message.sent_on}}</small></p>
+      </div>
+      {% else %}
+      <div class="user-received" style="background-color:#598ade;color:black;align-items:left">
+        <h4 class='message-sender' style="border-bottom:2px;padding:3px">{{message.sender.username}}</h4>
+        <span class='message' style="align:left">{{message.message|safe}}</span>
+        <p><small>{{message.sent_on}}</small></p>
+      </div>
+    {% endif %}
+    <hr>
+  {% endfor %}
+  <form class="messaging" method="post">
+    {%csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Send" class="btn btn-primary">
+  </form>
+</div>
+{% endblock content %}
