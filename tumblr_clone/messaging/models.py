@@ -12,6 +12,6 @@ class Message(models.Model):
     class Meta:
         ordering = ['-sent_on']
     def __str__(self):
-        return str(self.sender) + ' > ' + str(self.receiver)
+        return str(self.sender) + ' > ' + str(self.receiver)+' '+str(self.pk)
     def get_absolute_url(self):
         return reverse("message:list")

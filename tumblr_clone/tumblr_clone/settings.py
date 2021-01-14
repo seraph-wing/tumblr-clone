@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'taggit',
     'debug_toolbar',
+    'messaging',
 
 
 ]

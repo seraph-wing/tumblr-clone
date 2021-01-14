@@ -2,12 +2,15 @@
 
 {% block content %}
 <div class="container">
-  {% for conversers in users %}
-      {% if self.request.user=conversers.sender %}
-        {% comment %}
-          that means the current user has sent the message
-        {% endcomment %}
-      {% endif %}
+  {% for conversers in interacted_users %}
+        <div class="container converation">
+          {% if conversers.profile_picture %}<img src="{{conversers.profile_picture.url}}" width="10%" height="10%">{% endif %}
+          <span class="username-link"><p><a href="{% url 'message:user_list' conversers.pk %}">{{conversers}}</a></p> </span>
+          {% comment %}
+            <span class="message-preview"><small>{{conversers.message}}</small></span>
+          {% endcomment %}
+        </div
+      <hr>
   {% endfor %}
 </div>
 <style>

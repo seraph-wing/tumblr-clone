@@ -30,6 +30,14 @@ class Converstaions(ListView):
     context_object_name = 'users'
     paginate_by = 40
 
-    def get_queryset(self):
-        user = self.request.user
-        return Message.objects.all().filter(Q(sender__exact=user) | Q(receiver__exact=user))
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        users_interacted_with = set()
+        all_messages = Message.objects.filter(Q(sender=self.request.user) | Q(receiver=self.request.user))
+        for message in all_messages:
+            if(message.sender==self.request.user):
+                users_interacted_with.add(message.receiver)
+            else:
+                users_interacted_with.add(message.sender)
+        context['interacted_users'] = users_interacted_with
+        return context

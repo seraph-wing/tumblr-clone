@@ -32,5 +32,6 @@ urlpatterns = [
     path('post/',include('post.urls')),
     path('dashboard',post_view.Dashboard.as_view(),name='dashboard'),
     path('__debug__/', include(debug_toolbar.urls)),
-    path('message/',include('postman.urls', namespace='postman')),
+    path('messages/',include('postman.urls', namespace='postman')),
+    path('message/',include('messaging.urls'),name='message'),
 ] +static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
