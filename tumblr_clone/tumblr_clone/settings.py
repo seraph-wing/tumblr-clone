@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'account',
     'post',
-    'postman',
     'crispy_forms',
     'taggit',
     'debug_toolbar',
