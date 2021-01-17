@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container search_results">
+    <ul>
+
+      {% for result in results %}
+        <li>{% include "post/_post.html" with post=result %}</li>
+      {% endfor %}
+    </ul>
+
+  </div>
+{% endblock content %}

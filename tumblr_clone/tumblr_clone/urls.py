@@ -33,4 +33,5 @@ urlpatterns = [
     path('dashboard',post_view.Dashboard.as_view(),name='dashboard'),
     path('__debug__/', include(debug_toolbar.urls)),
     path('message/',include('messaging.urls'),name='message'),
+    path('search/',views.SearchPage.as_view(),name='search'),
 ] +static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
